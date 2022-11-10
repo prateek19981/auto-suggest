@@ -2,7 +2,7 @@ import "./App.css";
 import { getData } from "./api";
 import { useState, useEffect, useCallback } from "react";
 import useGetSuggestions from "./useGetSuggestions";
-
+let flag = 0;
 function App() {
   const [query, setQuery] = useState("");
   let data = useGetSuggestions(query);
@@ -13,7 +13,6 @@ function App() {
     setSuggestions(data);
   }, [data]);
 
-  console.log("render");
   return (
     <div className="App">
       <h1>Auto Suggest</h1>
@@ -23,7 +22,10 @@ function App() {
             type="search"
             placeholder="search here"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setShowSuggestions(true);
+              setQuery(e.target.value);
+            }}
           />
           <button>Search</button>
         </div>
@@ -31,7 +33,17 @@ function App() {
         {query && suggestions.length > 0 && showSuggestions && (
           <div className="searchResults">
             {suggestions.map((suggestion) => {
-              return <p key={suggestion}>{suggestion}</p>;
+              return (
+                <p
+                  key={suggestion}
+                  onClick={() => {
+                    setShowSuggestions(false);
+                    setQuery(suggestion);
+                  }}
+                >
+                  {suggestion}
+                </p>
+              );
             })}
           </div>
         )}

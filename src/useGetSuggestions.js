@@ -4,7 +4,6 @@ import { getData } from "./api";
 function useGetSuggestions(query = "", deps = []) {
   const [suggestion, setSuggestion] = useState([]);
   let res = [];
-  console.log(query);
   const [data, setData] = useState([]);
   useEffect(() => {
     function getSuggestions() {
